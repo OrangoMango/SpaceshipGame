@@ -49,10 +49,10 @@ class Wall:
 		#print("Correct:", self.correct)
 	def draw(self):
 		if not self.x <= 8:
-			self.x -= 3
-			self.y -= 3
-			self.x1 += 3
-			self.y1 += 3
+			self.x -= 2
+			self.y -= 2
+			self.x1 += 2
+			self.y1 += 2
 		else:
 			area_s = self.s.check_area()
 			if area_s != self.correct:
