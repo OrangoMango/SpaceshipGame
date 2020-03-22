@@ -13,6 +13,8 @@ class Game:
 		csx, csy, csx1, csy1 = 250-(100/2), 250-(100/2), 250+(100/2), 250+(100/2)
 		self.canvas.create_rectangle(csx, csy, csx1, csy1, fill="lightblue")
 		self.canvas.bind("<Motion>", self.motion)
+		self.score = 0
+		self.scoretext = self.canvas.create_text(10, 10, text="Score: {}".format(self.score), anchor="nw", font="Purisa 15 bold", fill="red")
 		self.p_x, self.p_y = 0, 0
 	def motion(self, e):
 		self.p_x, self.p_y = e.x, e.y
@@ -40,7 +42,8 @@ class Game:
 		return pcoord[area]
 
 class Wall:
-	def __init__(self, game, x, y):
+	def __init__(self, game, x, y, runtime=2):
+		self.runtime = runtime
 		self.game = game
 		w = 4
 		self.x, self.y, self.x1, self.y1 = x-w, y-w, x+w, y+w
@@ -49,16 +52,18 @@ class Wall:
 		#print("Correct:", self.correct)
 	def draw(self):
 		if not self.x <= 8:
-			self.x -= 2
-			self.y -= 2
-			self.x1 += 2
-			self.y1 += 2
+			self.x -= self.runtime
+			self.y -= self.runtime
+			self.x1 += self.runtime
+			self.y1 += self.runtime
 		else:
 			area_s = self.s.check_area()
 			if area_s != self.correct:
 				messagebox.showerror("Game Over", "You touched the wall")
 				sys.exit()
 			self.x, self.y, self.x1, self.y1 = 245, 245, 255, 255
+			self.game.score += 1
+			self.game.canvas.itemconfig(self.game.scoretext, text="Score: {}".format(self.game.score))
 			self.correct = random.randint(0,3)
 			#print("Correct:", self.correct)
 		self.game.canvas.delete(self.id)
@@ -80,7 +85,10 @@ class Spaceship:
 						]
 		#print(areas)
 		#print(areas.index(True))
-		return areas.index(True)
+		try:
+			return areas.index(True)
+		except:
+			return areas.index(False)
 	def goto(self, x, y):
 		self.game.canvas.delete(self.id)
 		self.id = self.game.canvas.create_rectangle(x-30, y-30, x+30, y+30, fill="red")
@@ -90,7 +98,8 @@ class Spaceship:
 
 if __name__ == '__main__':
 	g = Game()
-	w = Wall(g, 250, 250) #width = 5
+	runtime = 3.5
+	w = Wall(g, 250, 250, runtime=runtime) #width = 5
 	s = Spaceship(g, 10, 10, 60, 60) #width = 50
 	w.add_sp(s)
 	g.mainloop()
