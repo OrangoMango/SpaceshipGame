@@ -59,7 +59,7 @@ class Wall:
 		else:
 			area_s = self.s.check_area()
 			if area_s != self.correct:
-				messagebox.showerror("Game Over", "You touched the wall")
+				messagebox.showerror("Game Over", "You touched the wall, Score: {}".format(self.game.score))
 				sys.exit()
 			self.x, self.y, self.x1, self.y1 = 245, 245, 255, 255
 			self.game.score += 1
@@ -80,7 +80,7 @@ class Spaceship:
 						p[0] > 250 and p[3] < 250,
 						p[0] > 250 and p[1] > 250,
 						p[0] < 250 and p[3] > 250
-						]
+				]
 		try:
 			return areas.index(True)
 		except:
