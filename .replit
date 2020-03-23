@@ -1,2 +1,2 @@
 language = "tkinter"
-run = ""
+run = "python3 Spaceship_game.py"
