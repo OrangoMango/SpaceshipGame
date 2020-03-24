@@ -11,7 +11,7 @@ class Game:
 		for x in range(2):
 			self.canvas.create_line([0,0,500,500] if x == 0 else [500,0,0,500])
 		csx, csy, csx1, csy1 = 250-(100/2), 250-(100/2), 250+(100/2), 250+(100/2)
-		self.canvas.create_rectangle(csx, csy, csx1, csy1, fill="lightblue")
+		self.canvas.create_rectangle(csx, csy, csx1, csy1, fill="lightblue", outline="black")
 		self.canvas.bind("<Motion>", self.motion)
 		self.score = 0
 		self.scoretext = self.canvas.create_text(10, 10, text="Score: {}".format(self.score), anchor="nw", font="Purisa 15 bold", fill="red")
@@ -66,7 +66,7 @@ class Wall:
 			self.game.canvas.itemconfig(self.game.scoretext, text="Score: {}".format(self.game.score))
 			self.correct = random.randint(0,3)
 		self.game.canvas.delete(self.id)
-		self.id = self.game.canvas.create_polygon(self.game.get_coord_area([self.x, self.y, self.x1, self.y1], self.correct), fill="blue")
+		self.id = self.game.canvas.create_polygon(self.game.get_coord_area([self.x, self.y, self.x1, self.y1], self.correct), fill="blue", outline="black")
 	def add_sp(self, s):
 		self.s = s
 
