@@ -5,6 +5,7 @@ import time, random, sys
 class Game:
 	def __init__(self):
 		self.tk = Tk()
+		self.attemp = 2
 		self.tk.title(__file__)
 		self.canvas = Canvas(self.tk, width=500, height=500, bg="yellow")
 		self.canvas.pack()
@@ -13,7 +14,7 @@ class Game:
 		csx, csy, csx1, csy1 = 250-(100/2), 250-(100/2), 250+(100/2), 250+(100/2)
 		self.canvas.create_rectangle(csx, csy, csx1, csy1, fill="lightblue", outline="black")
 		self.canvas.bind("<Motion>", self.motion)
-		self.score = 0
+		self.score = -2
 		self.scoretext = self.canvas.create_text(10, 10, text="Score: {}".format(self.score), anchor="nw", font="Purisa 15 bold", fill="red")
 		self.p_x, self.p_y = 0, 0
 	def motion(self, e):
@@ -58,11 +59,13 @@ class Wall:
 			self.y1 += self.runtime
 		else:
 			area_s = self.s.check_area()
-			if area_s != self.correct:
+			if area_s != self.correct and self.game.attemp == 0:
 				messagebox.showerror("Game Over", "You touched the wall, Score: {}".format(self.game.score))
 				sys.exit()
 			self.x, self.y, self.x1, self.y1 = 245, 245, 255, 255
 			self.game.score += 1
+			if self.game.attemp != 0:
+				self.game.attemp -= 1
 			self.game.canvas.itemconfig(self.game.scoretext, text="Score: {}".format(self.game.score))
 			self.correct = random.randint(0,3)
 		self.game.canvas.delete(self.id)
