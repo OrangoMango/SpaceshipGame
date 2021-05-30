@@ -1,3 +1,5 @@
+#Made by OrangoMango https://orangomango.github.io
+
 from tkinter import *
 from tkinter import messagebox
 import time, random, sys
